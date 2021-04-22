@@ -1,9 +1,8 @@
-package test.java;
+
 
 import org.junit.rules.ExternalResource;
 import org.sql2o.*;
 
-import main.java.DB;
 
 public class DatabaseRule extends ExternalResource {
 

@@ -1,11 +1,10 @@
-package test.java;
+
 import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.sql2o.*;
 
-import main.java.Move;
-import main.java.Pokemon;
+
 
 public class MoveTest {
 
