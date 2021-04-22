@@ -40,3 +40,17 @@ Thumbs.db
 build/
 .gradle/
 /bin/
+*.pdf
+pokedex.sql
+gradlew.bat
+gradlew
+gradle/wrapper/gradle-wrapper.properties
+build.gradle
+.settings/org.eclipse.jdt.core.prefs
+.project
+.pairs
+.idea/workspace.xml
+.idea/misc.xml
+.idea/jarRepositories.xml
+.idea/gradle.xml
+.idea/compiler.xml
