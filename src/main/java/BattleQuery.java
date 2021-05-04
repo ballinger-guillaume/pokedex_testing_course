@@ -28,8 +28,4 @@ public class BattleQuery {
     }
   }
 
-public void reduceHp(int damage) {
-
-}
-
 }

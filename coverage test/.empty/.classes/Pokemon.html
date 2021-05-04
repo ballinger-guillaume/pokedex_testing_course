@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Pokemon</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Pokemon (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pokemon</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (92/ 92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.List;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import org.sql2o.*;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class Pokemon {
+<i>8</i>&nbsp;  private int id;
+<i>9</i>&nbsp;  private String type_1;
+<i>10</i>&nbsp;  private String type_2;
+<i>11</i>&nbsp;  private String name;
+<i>12</i>&nbsp;  private String description;
+<i>13</i>&nbsp;  private double weight;
+<i>14</i>&nbsp;  private int height;
+<i>15</i>&nbsp;  private int evolves;
+<i>16</i>&nbsp;  private boolean mega_evolves;
+<i>17</i>&nbsp;  public int hp;
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;  public Pokemon(String name, String type_1, String type_2, String description, double weight, int height, int evolves, boolean mega_evolves) {</b>
+<b class="fc"><i>20</i>&nbsp;    this.name = name;</b>
+<b class="fc"><i>21</i>&nbsp;    this.type_1 = type_1;</b>
+<b class="fc"><i>22</i>&nbsp;    this.type_2 = type_2;</b>
+<b class="fc"><i>23</i>&nbsp;    this.description = description;</b>
+<b class="fc"><i>24</i>&nbsp;    this.weight = weight;</b>
+<b class="fc"><i>25</i>&nbsp;    this.height = height;</b>
+<b class="fc"><i>26</i>&nbsp;    this.evolves = evolves;</b>
+<b class="fc"><i>27</i>&nbsp;    this.mega_evolves = mega_evolves;</b>
+<b class="fc"><i>28</i>&nbsp;  }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  public int getId() {
+<b class="fc"><i>31</i>&nbsp;    return id;</b>
+<i>32</i>&nbsp;  }
+<i>33</i>&nbsp;  public int getHp() {
+<b class="fc"><i>34</i>&nbsp;    return hp;</b>
+<i>35</i>&nbsp;  }
+<i>36</i>&nbsp;  public String getType1() {
+<b class="fc"><i>37</i>&nbsp;    return type_1;</b>
+<i>38</i>&nbsp;  }
+<i>39</i>&nbsp;  public String getType2() {
+<b class="fc"><i>40</i>&nbsp;    return type_2;</b>
+<i>41</i>&nbsp;  }
+<i>42</i>&nbsp;  public String getDescription() {
+<b class="fc"><i>43</i>&nbsp;    return description;</b>
+<i>44</i>&nbsp;  }
+<i>45</i>&nbsp;  public double getWeight() {
+<b class="fc"><i>46</i>&nbsp;    return weight;</b>
+<i>47</i>&nbsp;  }
+<i>48</i>&nbsp;  public int getHeight() {
+<b class="fc"><i>49</i>&nbsp;    return height;</b>
+<i>50</i>&nbsp;  }
+<i>51</i>&nbsp;  public int getEvolves() {
+<b class="fc"><i>52</i>&nbsp;    return evolves;</b>
+<i>53</i>&nbsp;  }
+<i>54</i>&nbsp;  public boolean getMega_evolves() {
+<b class="fc"><i>55</i>&nbsp;    return mega_evolves;</b>
+<i>56</i>&nbsp;  }
+<i>57</i>&nbsp;  public String getName() {
+<b class="fc"><i>58</i>&nbsp;    return name;</b>
+<i>59</i>&nbsp;  }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;  public String getImageName() {
+<b class="fc"><i>62</i>&nbsp;    return name + &quot;.gif&quot;;</b>
+<i>63</i>&nbsp;  }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;  public int getPreviousId() {
+<b class="fc"><i>66</i>&nbsp;    return id - 1;</b>
+<i>67</i>&nbsp;  }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;  public int getNextId() {
+<b class="fc"><i>70</i>&nbsp;    return id + 1;</b>
+<i>71</i>&nbsp;  }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;  public void save() {
+<b class="fc"><i>74</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>75</i>&nbsp;      String sql = &quot;INSERT INTO pokemons (name, type_1, type_2, description, weight, height, evolves, mega_evolves) VALUES (:name, :type_1, :type_2, :description, :weight, :height, :evolves, :mega_evolves)&quot;;</b>
+<b class="fc"><i>76</i>&nbsp;      this.id = (int) con.createQuery(sql, true)</b>
+<b class="fc"><i>77</i>&nbsp;      .addParameter(&quot;name&quot;, this.name)</b>
+<b class="fc"><i>78</i>&nbsp;      .addParameter(&quot;type_1&quot;, this.type_1)</b>
+<b class="fc"><i>79</i>&nbsp;      .addParameter(&quot;type_2&quot;, this.type_2)</b>
+<b class="fc"><i>80</i>&nbsp;      .addParameter(&quot;description&quot;, this.description)</b>
+<b class="fc"><i>81</i>&nbsp;      .addParameter(&quot;weight&quot;, this.weight)</b>
+<b class="fc"><i>82</i>&nbsp;      .addParameter(&quot;height&quot;, this.height)</b>
+<b class="fc"><i>83</i>&nbsp;      .addParameter(&quot;evolves&quot;, this.evolves)</b>
+<b class="fc"><i>84</i>&nbsp;      .addParameter(&quot;mega_evolves&quot;, this.mega_evolves)</b>
+<b class="fc"><i>85</i>&nbsp;      .executeUpdate()</b>
+<b class="fc"><i>86</i>&nbsp;      .getKey();</b>
+<b class="fc"><i>87</i>&nbsp;    }</b>
+<b class="fc"><i>88</i>&nbsp;  }</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;  public static List&lt;Pokemon&gt; all() {
+<b class="fc"><i>91</i>&nbsp;  String sql = &quot;SELECT * FROM pokemons ORDER BY id ASC&quot;;</b>
+<b class="fc"><i>92</i>&nbsp;  try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>93</i>&nbsp;    return con.createQuery(sql).executeAndFetch(Pokemon.class);</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;  }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;  public static Pokemon find(int id) {
+<b class="fc"><i>98</i>&nbsp;  try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>99</i>&nbsp;    String sql = &quot;SELECT * FROM pokemons WHERE id=:id&quot;;</b>
+<b class="fc"><i>100</i>&nbsp;    return con.createQuery(sql)</b>
+<b class="fc"><i>101</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>102</i>&nbsp;      .executeAndFetchFirst(Pokemon.class);</b>
+<b class="fc"><i>103</i>&nbsp;    }</b>
+<i>104</i>&nbsp;  }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;  public void delete() {
+<b class="fc"><i>107</i>&nbsp;  try (Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>108</i>&nbsp;    String sql = &quot;DELETE FROM pokemons WHERE id = :id&quot;;</b>
+<b class="fc"><i>109</i>&nbsp;    con.createQuery(sql)</b>
+<b class="fc"><i>110</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>111</i>&nbsp;      .executeUpdate();</b>
+<b class="fc"><i>112</i>&nbsp;    sql = &quot;DELETE FROM moves_pokemons WHERE pokemon_id = :id&quot;;</b>
+<b class="fc"><i>113</i>&nbsp;    con.createQuery(sql)</b>
+<b class="fc"><i>114</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>115</i>&nbsp;      .executeUpdate();</b>
+<b class="fc"><i>116</i>&nbsp;    }</b>
+<b class="fc"><i>117</i>&nbsp;  }</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;  @Override
+<i>120</i>&nbsp;  public boolean equals(Object otherPokemon){
+<b class="fc"><i>121</i>&nbsp;    if (!(otherPokemon instanceof Pokemon)) {</b>
+<b class="fc"><i>122</i>&nbsp;      return false;</b>
+<i>123</i>&nbsp;    } else {
+<b class="fc"><i>124</i>&nbsp;      Pokemon newPokemon = (Pokemon) otherPokemon;</b>
+<b class="fc"><i>125</i>&nbsp;      return this.getId() == newPokemon.getId() &amp;&amp;</b>
+<b class="fc"><i>126</i>&nbsp;             this.getName().equals(newPokemon.getName());</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;  }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;  public void addMove(Move move) {
+<b class="fc"><i>131</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>132</i>&nbsp;      String sql = &quot;INSERT INTO moves_pokemons (move_id, pokemon_id) VALUES (:move_id, :pokemon_id)&quot;;</b>
+<b class="fc"><i>133</i>&nbsp;      con.createQuery(sql)</b>
+<b class="fc"><i>134</i>&nbsp;        .addParameter(&quot;pokemon_id&quot;, this.getId())</b>
+<b class="fc"><i>135</i>&nbsp;        .addParameter(&quot;move_id&quot;, move.getId())</b>
+<b class="fc"><i>136</i>&nbsp;        .executeUpdate();</b>
+<b class="fc"><i>137</i>&nbsp;      }</b>
+<b class="fc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;  public List&lt;Move&gt; getMoves() {
+<b class="fc"><i>141</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>142</i>&nbsp;      String joinQuery = &quot;SELECT moves.* FROM pokemons &quot; +</b>
+<i>143</i>&nbsp;      &quot;JOIN moves_pokemons ON (pokemons.id = moves_pokemons.pokemon_id) &quot; +
+<i>144</i>&nbsp;      &quot;JOIN moves ON (moves_pokemons.move_id = moves.id) &quot; +
+<i>145</i>&nbsp;      &quot;WHERE pokemons.id = :pokemon_id&quot;;
+<i>146</i>&nbsp;
+<b class="fc"><i>147</i>&nbsp;      List&lt;Move&gt; moves = con.createQuery(joinQuery)</b>
+<b class="fc"><i>148</i>&nbsp;        .addParameter(&quot;pokemon_id&quot;, this.getId())</b>
+<b class="fc"><i>149</i>&nbsp;        .executeAndFetch(Move.class);</b>
+<i>150</i>&nbsp;
+<b class="fc"><i>151</i>&nbsp;      return moves;</b>
+<b class="fc"><i>152</i>&nbsp;    }</b>
+<i>153</i>&nbsp;  }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;  public static List&lt;Pokemon&gt; searchByName(String name) {
+<b class="fc"><i>156</i>&nbsp;    name = name.toLowerCase();</b>
+<b class="fc"><i>157</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>158</i>&nbsp;      String sql = &quot;SELECT * FROM pokemons WHERE LOWER (name) LIKE :name&quot;;</b>
+<b class="fc"><i>159</i>&nbsp;      return con.createQuery(sql)</b>
+<b class="fc"><i>160</i>&nbsp;        .addParameter(&quot;name&quot;, &#39;%&#39; + name + &#39;%&#39;)</b>
+<b class="fc"><i>161</i>&nbsp;        .executeAndFetch(Pokemon.class);</b>
+<b class="fc"><i>162</i>&nbsp;    }</b>
+<i>163</i>&nbsp;  }
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;  public static List&lt;Pokemon&gt; searchByType(String type) {
+<b class="fc"><i>166</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>167</i>&nbsp;      String sql = &quot;SELECT * FROM pokemons WHERE type_1 = :type OR type_2 = :type&quot;;</b>
+<b class="fc"><i>168</i>&nbsp;      return con.createQuery(sql)</b>
+<b class="fc"><i>169</i>&nbsp;        .addParameter(&quot;type&quot;, type)</b>
+<b class="fc"><i>170</i>&nbsp;        .executeAndFetch(Pokemon.class);</b>
+<b class="fc"><i>171</i>&nbsp;    }</b>
+<i>172</i>&nbsp;  }
+<i>173</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-05-04 02:12</div>
+</div>
+</body>
+</html>

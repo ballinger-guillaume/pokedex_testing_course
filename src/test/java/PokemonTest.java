@@ -3,10 +3,16 @@
 import static org.junit.Assert.*;
 
 import jdk.jfr.Description;
-import org.junit.*;
+
+import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.sql2o.*;
+
+import java.util.stream.Stream;
 
 
 public class PokemonTest {
@@ -18,20 +24,20 @@ public class PokemonTest {
   @Description("Testing if the instance of the Pokemon is of Pokemon. Testing a single unit => UnitTest")
   public void Pokemon_instantiatesCorrectly_true() {
     Pokemon myPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
-    assertEquals(true, myPokemon instanceof Pokemon);
+    Assertions.assertEquals(true, myPokemon instanceof Pokemon);
   }
 
   @Test
   @Description("Testing if the name is well set of the pokemon. Testing single unit => UnitTest")
   public void getName_pokemonInstantiatesWithName_String() {
     Pokemon myPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
-    assertEquals("Squirtle", myPokemon.getName());
+    Assertions.assertEquals("Squirtle", myPokemon.getName());
   }
 
   @Test
   @Description("Test if the initialisation of the Pokemon  list is empty. Testing 1 single component/Unit => UnitTest")
   public void all_emptyAtFirst() {
-    assertEquals(Pokemon.all().size(), 0);
+    Assertions.assertEquals(Pokemon.all().size(), 0);
   }
 
   @Test
@@ -39,7 +45,7 @@ public class PokemonTest {
   public void equals_returnsTrueIfPokemonAreTheSame_true() {
     Pokemon firstPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
     Pokemon secondPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
-    assertTrue(firstPokemon.equals(secondPokemon));
+    Assertions.assertEquals(secondPokemon, firstPokemon);
   }
 
   @Test
@@ -47,7 +53,7 @@ public class PokemonTest {
   public void save_savesPokemonCorrectly_1() {
     Pokemon newPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
     newPokemon.save();
-    assertEquals(1, Pokemon.all().size());
+    Assertions.assertEquals(1, Pokemon.all().size());
   }
 
   @Test
@@ -56,7 +62,7 @@ public class PokemonTest {
     Pokemon myPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
     myPokemon.save();
     Pokemon savedPokemon = Pokemon.find(myPokemon.getId());
-    assertTrue(myPokemon.equals(savedPokemon));
+    Assertions.assertEquals(savedPokemon, myPokemon);
   }
 
   @Test
@@ -68,7 +74,7 @@ public class PokemonTest {
     myPokemon.save();
     myPokemon.addMove(myMove);
     Move savedMove = myPokemon.getMoves().get(0);
-    assertTrue(myMove.equals(savedMove));
+    Assertions.assertEquals(savedMove, myMove);
   }
 
   @Test
@@ -80,8 +86,8 @@ public class PokemonTest {
     myMove.save();
     myPokemon.addMove(myMove);
     myPokemon.delete();
-    assertEquals(0, Pokemon.all().size());
-    assertEquals(0, myPokemon.getMoves().size());
+    Assertions.assertEquals(0, Pokemon.all().size());
+    Assertions.assertEquals(0, myPokemon.getMoves().size());
   }
 
   @Test
@@ -89,22 +95,25 @@ public class PokemonTest {
   public void searchByName_findAllPokemonWithSearchInputString_List() {
     Pokemon myPokemon = new Pokemon("Squirtle", "Water", "None", "A cute turtle", 50.0, 12, 16, false);
     myPokemon.save();
-    assertEquals(myPokemon, Pokemon.searchByName("squir").get(0));
+    Assertions.assertEquals(myPokemon, Pokemon.searchByName("squir").get(0));
   }
 
-  public static String[][] data() {
-    return new String[][] { { "FIRE" , "ROCK","50","500","400" }, { "Grass" , "Ground","50" ,"12.25","500","400" },
-            { "Electric" , "Ground","50" ,"2000","500","500" } };
+  public static Stream<Arguments> data2() {
+    return Stream.of(
+            Arguments.of("Ghost","Normal",50.0,500,500),
+            Arguments.of("Rock","Normal",50.0,500,400),
+            Arguments.of("Water","Electric",50.0,500,100)
+            );
   }
 
   @ParameterizedTest
-  @MethodSource(value = "data")
+  @MethodSource(value = "data2")
   @Description("Testing the damages done after attacking.Here we are testing the Behaviour of the game and what the \"EndUser\" is expecting => AceptenceTest")
-  public void fighting_damagesDefender(String[] data) {
-    Pokemon myPokemon = new Pokemon("Squirtle", data[0], "Normal", "A cute turtle", 50.0, 12, 16, false);
+  public void fighting_damagesDefender(String type,String type2,double power,int hp,int endhp) {
+    Pokemon myPokemon = new Pokemon("Squirtle", type, "Normal", "A cute turtle", 50.0, 12, 16, false);
     myPokemon.save();
-    myPokemon.hp = Integer.parseInt(data[3]);
-    Move myMove = new Move("Bubble", data[1], Double.parseDouble(data[2]), 100);
+    myPokemon.hp = hp;
+    Move myMove = new Move("Bubble", type2,power, 100);
     myMove.attack(myPokemon);
     System.out.println(myPokemon.hp);
     myMove.attack(myPokemon);
@@ -112,7 +121,7 @@ public class PokemonTest {
     myMove.attack(myPokemon);
         System.out.println(myPokemon.hp);
     myMove.attack(myPokemon);
-    assertEquals(Integer.parseInt(data[4]), myPokemon.hp);
+    Assertions.assertEquals(endhp, myPokemon.hp);
   }
 
 }

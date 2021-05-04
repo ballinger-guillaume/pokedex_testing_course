@@ -1,0 +1,364 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Move</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Move (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Move</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (170/ 170)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.List;
+<i>4</i>&nbsp;import java.util.Random;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import org.sql2o.*;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class Move {
+<i>9</i>&nbsp;  private int id;
+<i>10</i>&nbsp;  private String name;
+<i>11</i>&nbsp;  private String type;
+<i>12</i>&nbsp;  private Double power;
+<i>13</i>&nbsp;  private int accuracy;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;  public Move(String name, String type, Double power, int accuracy) {</b>
+<b class="fc"><i>16</i>&nbsp;    this.name = name;</b>
+<b class="fc"><i>17</i>&nbsp;    this.type = type;</b>
+<b class="fc"><i>18</i>&nbsp;    this.power = power;</b>
+<b class="fc"><i>19</i>&nbsp;    this.accuracy = accuracy;</b>
+<b class="fc"><i>20</i>&nbsp;  }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  public int getId() {
+<b class="fc"><i>23</i>&nbsp;    return id;</b>
+<i>24</i>&nbsp;  }
+<i>25</i>&nbsp;  public String getName() {
+<b class="fc"><i>26</i>&nbsp;    return name;</b>
+<i>27</i>&nbsp;  }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;  public String getType() {
+<b class="fc"><i>30</i>&nbsp;    return type;</b>
+<i>31</i>&nbsp;  }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;  public Double getPower() {
+<b class="fc"><i>34</i>&nbsp;    return power;</b>
+<i>35</i>&nbsp;  }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;  public int getAccuracy() {
+<b class="fc"><i>38</i>&nbsp;    return accuracy;</b>
+<i>39</i>&nbsp;  }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;  public void save() {
+<b class="fc"><i>42</i>&nbsp;    try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>43</i>&nbsp;      String sql = &quot;INSERT INTO moves (name) VALUES (:name)&quot;;</b>
+<b class="fc"><i>44</i>&nbsp;      this.id = (int) con.createQuery(sql, true)</b>
+<b class="fc"><i>45</i>&nbsp;      .addParameter(&quot;name&quot;, this.name)</b>
+<b class="fc"><i>46</i>&nbsp;      .executeUpdate()</b>
+<b class="fc"><i>47</i>&nbsp;      .getKey();</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<b class="fc"><i>49</i>&nbsp;  }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;  public static List&lt;Move&gt; all() {
+<b class="fc"><i>52</i>&nbsp;  String sql = &quot;SELECT * FROM moves&quot;;</b>
+<b class="fc"><i>53</i>&nbsp;  try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>54</i>&nbsp;    return con.createQuery(sql).executeAndFetch(Move.class);</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;  }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;  public static Move find(int id) {
+<b class="fc"><i>59</i>&nbsp;  try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>60</i>&nbsp;    String sql = &quot;SELECT * FROM moves WHERE id=:id&quot;;</b>
+<b class="fc"><i>61</i>&nbsp;    return con.createQuery(sql)</b>
+<b class="fc"><i>62</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>63</i>&nbsp;      .executeAndFetchFirst(Move.class);</b>
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;  }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;  public void delete() {
+<b class="fc"><i>68</i>&nbsp;  try (Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>69</i>&nbsp;    String sql = &quot;DELETE FROM moves WHERE id = :id&quot;;</b>
+<b class="fc"><i>70</i>&nbsp;    con.createQuery(sql)</b>
+<b class="fc"><i>71</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>72</i>&nbsp;      .executeUpdate();</b>
+<b class="fc"><i>73</i>&nbsp;    sql = &quot;DELETE FROM moves_pokemons WHERE move_id = :id&quot;;</b>
+<b class="fc"><i>74</i>&nbsp;    con.createQuery(sql)</b>
+<b class="fc"><i>75</i>&nbsp;      .addParameter(&quot;id&quot;, id)</b>
+<b class="fc"><i>76</i>&nbsp;      .executeUpdate();</b>
+<b class="fc"><i>77</i>&nbsp;    }</b>
+<b class="fc"><i>78</i>&nbsp;  }</b>
+<i>79</i>&nbsp;  @Override
+<i>80</i>&nbsp;  public boolean equals(Object otherMove){
+<b class="fc"><i>81</i>&nbsp;    if (!(otherMove instanceof Move)) {</b>
+<b class="fc"><i>82</i>&nbsp;      return false;</b>
+<i>83</i>&nbsp;    } else {
+<b class="fc"><i>84</i>&nbsp;      Move newMove = (Move) otherMove;</b>
+<b class="fc"><i>85</i>&nbsp;      return this.getId() == newMove.getId() &amp;&amp;</b>
+<b class="fc"><i>86</i>&nbsp;             this.getName().equals(newMove.getName());</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;  }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    public double effectiveness (Pokemon defendingPokemon) {
+<b class="fc"><i>91</i>&nbsp;      String[] defenderTypes = {defendingPokemon.getType1(), defendingPokemon.getType2()};</b>
+<b class="fc"><i>92</i>&nbsp;      double effectiveness = 1;</b>
+<b class="fc"><i>93</i>&nbsp;      String attackType = this.type;</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;      for (String type : defenderTypes) {</b>
+<i>96</i>&nbsp;
+<b class="fc"><i>97</i>&nbsp;        if (attackType.equals(&quot;Normal&quot;)) {</b>
+<b class="fc"><i>98</i>&nbsp;          if (type.contains(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>99</i>&nbsp;            effectiveness *= .5;</b>
+<b class="fc"><i>100</i>&nbsp;          } else if (type.contains(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>101</i>&nbsp;            effectiveness = 0;</b>
+<i>102</i>&nbsp;          }
+<i>103</i>&nbsp;        }
+<b class="fc"><i>104</i>&nbsp;        if (attackType.equals(&quot;Fire&quot;)) {</b>
+<b class="fc"><i>105</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Water&quot;) || type.equals(&quot;Rock&quot;) || type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>106</i>&nbsp;            effectiveness *= .5;</b>
+<b class="fc"><i>107</i>&nbsp;          } else if (type.equals(&quot;Grass&quot;) || type.equals(&quot;Bug&quot;) || type.equals(&quot;Ice&quot;)) {</b>
+<b class="fc"><i>108</i>&nbsp;            effectiveness *=2;</b>
+<i>109</i>&nbsp;          }
+<i>110</i>&nbsp;        }
+<b class="fc"><i>111</i>&nbsp;        if (attackType.equals(&quot;Water&quot;)) {</b>
+<b class="fc"><i>112</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Ground&quot;) || type.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>113</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>114</i>&nbsp;          } else if (type.equals(&quot;Water&quot;) || type.equals(&quot;Grass&quot;) || type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>115</i>&nbsp;            effectiveness *=.5;</b>
+<i>116</i>&nbsp;          }
+<i>117</i>&nbsp;        }
+<b class="fc"><i>118</i>&nbsp;        if (attackType.equals(&quot;Electric&quot;)) {</b>
+<b class="fc"><i>119</i>&nbsp;          if (type.equals(&quot;Water&quot;) || type.equals(&quot;Flying&quot;)) {</b>
+<b class="fc"><i>120</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>121</i>&nbsp;          } else if (type.equals(&quot;Electric&quot;) || type.equals(&quot;Grass&quot;) || type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>122</i>&nbsp;            effectiveness *= .5;</b>
+<b class="fc"><i>123</i>&nbsp;          } else if (type.equals(&quot;Ground&quot;)) {</b>
+<b class="fc"><i>124</i>&nbsp;            effectiveness = 0;</b>
+<i>125</i>&nbsp;          }
+<i>126</i>&nbsp;        }
+<b class="fc"><i>127</i>&nbsp;        if (attackType.equals(&quot;Grass&quot;)) {</b>
+<b class="fc"><i>128</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Grass&quot;) || type.equals(&quot;Poison&quot;) || type.equals(&quot;Flying&quot;) || type.equals(&quot;Bug&quot;) || type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>129</i>&nbsp;            effectiveness *= .5;</b>
+<b class="fc"><i>130</i>&nbsp;          } else if (type.equals(&quot;Water&quot;) || type.equals(&quot;Ground&quot;) || type.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>131</i>&nbsp;            effectiveness *= 2;</b>
+<i>132</i>&nbsp;          }
+<i>133</i>&nbsp;        }
+<b class="fc"><i>134</i>&nbsp;        if (attackType.equals(&quot;Ice&quot;)) {</b>
+<b class="fc"><i>135</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Water&quot;) || type.equals(&quot;Ice&quot;)) {</b>
+<b class="fc"><i>136</i>&nbsp;            effectiveness *= .5;</b>
+<b class="fc"><i>137</i>&nbsp;          } else if (type.equals(&quot;Grass&quot;) || type.equals(&quot;Ground&quot;) || type.equals(&quot;Flying&quot;) || type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>138</i>&nbsp;            effectiveness *=2;</b>
+<i>139</i>&nbsp;          }
+<i>140</i>&nbsp;        }
+<b class="fc"><i>141</i>&nbsp;        if (attackType.equals(&quot;Fighting&quot;)) {</b>
+<b class="fc"><i>142</i>&nbsp;          if (type.equals(&quot;Normal&quot;) || type.equals(&quot;Ice&quot;) || type.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>143</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>144</i>&nbsp;          } else if (type.equals(&quot;Poison&quot;) || type.equals(&quot;Flying&quot;) || type.equals(&quot;Psychic&quot;) || type.equals(&quot;Bug&quot;)) {</b>
+<b class="fc"><i>145</i>&nbsp;            effectiveness *=.5;</b>
+<b class="fc"><i>146</i>&nbsp;          } else if (type.equals(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>147</i>&nbsp;            effectiveness = 0;</b>
+<i>148</i>&nbsp;          }
+<i>149</i>&nbsp;        }
+<b class="fc"><i>150</i>&nbsp;        if (attackType.equals(&quot;Poison&quot;)) {</b>
+<b class="fc"><i>151</i>&nbsp;          if (type.equals(&quot;Grass&quot;)) {</b>
+<b class="fc"><i>152</i>&nbsp;            effectiveness *= 2;</b>
+<b class="fc"><i>153</i>&nbsp;          } else if (type.equals(&quot;Poison&quot;) || type.equals(&quot;Ground&quot;) || type.equals(&quot;Rock&quot;) || type.equals(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>154</i>&nbsp;            effectiveness *=.5;</b>
+<i>155</i>&nbsp;          }
+<i>156</i>&nbsp;        }
+<b class="fc"><i>157</i>&nbsp;        if (attackType.equals(&quot;Ground&quot;)) {</b>
+<b class="fc"><i>158</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Electric&quot;) || type.equals(&quot;Poison&quot;) || type.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>159</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>160</i>&nbsp;          } else if (type.equals(&quot;Grass&quot;) || type.equals(&quot;Bug&quot;)) {</b>
+<b class="fc"><i>161</i>&nbsp;            effectiveness *=.5;</b>
+<b class="fc"><i>162</i>&nbsp;          } else if (type.equals(&quot;Flying&quot;)) {</b>
+<b class="fc"><i>163</i>&nbsp;            effectiveness = 0;</b>
+<i>164</i>&nbsp;          }
+<i>165</i>&nbsp;        }
+<b class="fc"><i>166</i>&nbsp;        if (attackType.equals(&quot;Flying&quot;)) {</b>
+<b class="fc"><i>167</i>&nbsp;          if (type.equals(&quot;Grass&quot;) || type.equals(&quot;Fighting&quot;) || type.equals(&quot;Bug&quot;)) {</b>
+<b class="fc"><i>168</i>&nbsp;            effectiveness *= 2;</b>
+<b class="fc"><i>169</i>&nbsp;          } else if (type.equals(&quot;Electric&quot;) || type.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>170</i>&nbsp;            effectiveness *=.5;</b>
+<i>171</i>&nbsp;          }
+<i>172</i>&nbsp;        }
+<b class="fc"><i>173</i>&nbsp;        if (attackType.equals(&quot;Psychic&quot;)) {</b>
+<b class="fc"><i>174</i>&nbsp;          if (type.equals(&quot;Fighting&quot;) || type.equals(&quot;Ground&quot;)) {</b>
+<b class="fc"><i>175</i>&nbsp;            effectiveness *= 2;</b>
+<b class="fc"><i>176</i>&nbsp;          } else if (type.equals(&quot;Psychic&quot;)) {</b>
+<b class="fc"><i>177</i>&nbsp;            effectiveness *=.5;</b>
+<i>178</i>&nbsp;          }
+<i>179</i>&nbsp;        }
+<b class="fc"><i>180</i>&nbsp;        if (attackType.equals(&quot;Bug&quot;)) {</b>
+<b class="fc"><i>181</i>&nbsp;          if (type.equals(&quot;Grass&quot;) || type.equals(&quot;Psychic&quot;)) {</b>
+<b class="fc"><i>182</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>183</i>&nbsp;          } else if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Fighting&quot;) || type.equals(&quot;Poison&quot;) || type.equals(&quot;Flying&quot;) || type.equals(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>184</i>&nbsp;            effectiveness *=.5;</b>
+<i>185</i>&nbsp;          }
+<i>186</i>&nbsp;        }
+<b class="fc"><i>187</i>&nbsp;        if (attackType.equals(&quot;Rock&quot;)) {</b>
+<b class="fc"><i>188</i>&nbsp;          if (type.equals(&quot;Fire&quot;) || type.equals(&quot;Ice&quot;) || type.equals(&quot;Flying&quot;) || type.equals(&quot;Bug&quot;)) {</b>
+<b class="fc"><i>189</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>190</i>&nbsp;          } else if (type.equals(&quot;Fighting&quot;) || type.equals(&quot;Ground&quot;)) {</b>
+<b class="fc"><i>191</i>&nbsp;            effectiveness *=.5;</b>
+<i>192</i>&nbsp;          }
+<i>193</i>&nbsp;        }
+<b class="fc"><i>194</i>&nbsp;        if (attackType.equals(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>195</i>&nbsp;          if (type.equals(&quot;Psychic&quot;) || type.equals(&quot;Ghost&quot;)) {</b>
+<b class="fc"><i>196</i>&nbsp;            effectiveness *=2;</b>
+<b class="fc"><i>197</i>&nbsp;          } else if (type.equals(&quot;Normal&quot;)) {</b>
+<b class="fc"><i>198</i>&nbsp;            effectiveness *=0;</b>
+<i>199</i>&nbsp;          }
+<i>200</i>&nbsp;        }
+<b class="fc"><i>201</i>&nbsp;        if (attackType.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>202</i>&nbsp;          if (type.equals(&quot;Dragon&quot;)) {</b>
+<b class="fc"><i>203</i>&nbsp;            effectiveness *=2;</b>
+<i>204</i>&nbsp;          }
+<i>205</i>&nbsp;        }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;      }
+<b class="fc"><i>208</i>&nbsp;      return effectiveness;</b>
+<i>209</i>&nbsp;    }
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    public boolean hitCalculator() {
+<b class="fc"><i>212</i>&nbsp;      Random randomGenerator = new Random();</b>
+<b class="fc"><i>213</i>&nbsp;      int randomNumber = randomGenerator.nextInt(100) + 1;</b>
+<b class="fc"><i>214</i>&nbsp;      int moveAccuracy = this.getAccuracy();</b>
+<b class="fc"><i>215</i>&nbsp;      if (moveAccuracy &gt;= randomNumber) {</b>
+<b class="fc"><i>216</i>&nbsp;        return true;</b>
+<i>217</i>&nbsp;      } else {
+<b class="fc"><i>218</i>&nbsp;        return false;</b>
+<i>219</i>&nbsp;      }
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    }
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    public String attack(Pokemon defendingPokemon) {
+<i>224</i>&nbsp;      Double damage;
+<i>225</i>&nbsp;
+<b class="fc"><i>226</i>&nbsp;      if (this.hitCalculator()) {</b>
+<b class="fc"><i>227</i>&nbsp;        damage = this.getPower();</b>
+<b class="fc"><i>228</i>&nbsp;        double multiplier = this.effectiveness(defendingPokemon);</b>
+<b class="fc"><i>229</i>&nbsp;        if (multiplier &gt; 1) {</b>
+<b class="fc"><i>230</i>&nbsp;          defendingPokemon.hp -= damage * multiplier;</b>
+<b class="fc"><i>231</i>&nbsp;          return String.format(&quot;The attack is super effective and did %.2f damage!!&quot;, damage * multiplier);</b>
+<b class="fc"><i>232</i>&nbsp;        } else if (multiplier == 0) {</b>
+<b class="fc"><i>233</i>&nbsp;          return &quot;The attack is ineffective and did 0 damage.&quot;;</b>
+<b class="fc"><i>234</i>&nbsp;        } else if (multiplier &lt; 1) {</b>
+<b class="fc"><i>235</i>&nbsp;          defendingPokemon.hp -= damage * multiplier;</b>
+<b class="fc"><i>236</i>&nbsp;          return String.format(&quot;The attack is not very effective and did %.2f damage.&quot;, damage * multiplier);</b>
+<i>237</i>&nbsp;        } else {
+<b class="fc"><i>238</i>&nbsp;          defendingPokemon.hp -= damage;</b>
+<b class="fc"><i>239</i>&nbsp;          return String.format(&quot;The attack does %.2f damage!&quot;, damage * multiplier);</b>
+<i>240</i>&nbsp;        }
+<i>241</i>&nbsp;      } else {
+<b class="fc"><i>242</i>&nbsp;        return &quot;The attack misses and did 0 damage...&quot;;</b>
+<i>243</i>&nbsp;      }
+<i>244</i>&nbsp;    }
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;    public static List&lt;Move&gt; searchByName(String name) {
+<b class="fc"><i>247</i>&nbsp;      name = name.toLowerCase();</b>
+<b class="fc"><i>248</i>&nbsp;      try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>249</i>&nbsp;        String sql = &quot;SELECT * FROM moves WHERE LOWER (name) LIKE :move&quot;;</b>
+<b class="fc"><i>250</i>&nbsp;        return con.createQuery(sql)</b>
+<b class="fc"><i>251</i>&nbsp;          .addParameter(&quot;move&quot;, &#39;%&#39; + name + &#39;%&#39;)</b>
+<b class="fc"><i>252</i>&nbsp;          .executeAndFetch(Move.class);</b>
+<b class="fc"><i>253</i>&nbsp;      }</b>
+<i>254</i>&nbsp;    }
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    public static List&lt;Move&gt; searchByExactName(String name) {
+<b class="fc"><i>257</i>&nbsp;      name = name.toLowerCase();</b>
+<b class="fc"><i>258</i>&nbsp;      try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>259</i>&nbsp;        String sql = &quot;SELECT * FROM moves WHERE LOWER (name) = :move&quot;;</b>
+<b class="fc"><i>260</i>&nbsp;        return con.createQuery(sql)</b>
+<b class="fc"><i>261</i>&nbsp;          .addParameter(&quot;move&quot;, name)</b>
+<b class="fc"><i>262</i>&nbsp;          .executeAndFetch(Move.class);</b>
+<b class="fc"><i>263</i>&nbsp;      }</b>
+<i>264</i>&nbsp;    }
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    public List&lt;Pokemon&gt; getPokemons() {
+<b class="fc"><i>267</i>&nbsp;      try(Connection con = DB.sql2o.open()) {</b>
+<b class="fc"><i>268</i>&nbsp;        String joinQuery = &quot;SELECT pokemons.* FROM moves &quot; +</b>
+<i>269</i>&nbsp;        &quot;JOIN moves_pokemons ON (moves.id = moves_pokemons.move_id) &quot; +
+<i>270</i>&nbsp;        &quot;JOIN pokemons ON (moves_pokemons.pokemon_id = pokemons.id) &quot; +
+<i>271</i>&nbsp;        &quot;WHERE moves.id = :move_id&quot;;
+<i>272</i>&nbsp;
+<b class="fc"><i>273</i>&nbsp;        List&lt;Pokemon&gt; pokemons = con.createQuery(joinQuery)</b>
+<b class="fc"><i>274</i>&nbsp;          .addParameter(&quot;move_id&quot;, this.getId())</b>
+<b class="fc"><i>275</i>&nbsp;          .executeAndFetch(Pokemon.class);</b>
+<i>276</i>&nbsp;
+<b class="fc"><i>277</i>&nbsp;        return pokemons;</b>
+<b class="fc"><i>278</i>&nbsp;      }</b>
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;  }
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-05-04 02:12</div>
+</div>
+</body>
+</html>

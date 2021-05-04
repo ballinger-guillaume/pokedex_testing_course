@@ -2,10 +2,8 @@
 
 import jdk.jfr.Description;
 import org.fluentlenium.adapter.FluentTest;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -23,7 +21,7 @@ public class AppTest extends FluentTest {
 
   @BeforeEach
   public void DBsetUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/pokedex_test", null, null);
+    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/pokedex_test", "postgres", "a");
   }
   @AfterEach
   protected void after() {
@@ -58,6 +56,7 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/");
     assertThat(pageSource()).contains("Pokedex");
   }
+
 
   @Test
   @Description("Opens the start page then clicks on the ViewDex id and assures the loaded page contains Ivysaur and Charizard.Testing the integration  =>IntegrityTest")
@@ -98,5 +97,7 @@ public class AppTest extends FluentTest {
     fill("#name").with("x");
     assertThat(pageSource().contains("No matches for your search results"));
   }
+
+
 
 }
